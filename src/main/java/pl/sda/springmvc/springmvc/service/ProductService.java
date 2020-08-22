@@ -25,4 +25,13 @@ public class ProductService {
         ProductDTO productDTO = new ProductDTO(++count, newProductDTO.getName());
         products.add(productDTO);
     }
+
+    //FIX ME!!!!
+    public ProductDTO getProductById(long idProduct) {
+        return products
+                .stream()
+                .filter(product -> product.getId() == idProduct)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
 }
