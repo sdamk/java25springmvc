@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World - Products</title>
+</head>
+<body>
+
+<th:block th:each="product : ${products}">
+    <tr>
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+    </tr>
+</th:block>
+
+<form th:object="${newProduct}" method="post" th:action="@{/products}">
+    <input th:field="*{name}">
+    <button th:type="submit">Dodaj</button>
+</form>
+
+</body>
+</html>
