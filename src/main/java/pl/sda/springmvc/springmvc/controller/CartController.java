@@ -29,4 +29,11 @@ class CartController {
         cart.addProduct(idProduct);
         return "redirect:/cart";
     }
+
+    @GetMapping("/makeOrder")
+    String makeOrder() {
+        cart.submit();
+        return "redirect:/orders";
+    }
 }
+

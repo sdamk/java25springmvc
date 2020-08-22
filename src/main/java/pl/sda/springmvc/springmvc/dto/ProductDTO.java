@@ -1,5 +1,8 @@
 package pl.sda.springmvc.springmvc.dto;
 
+import lombok.ToString;
+
+@ToString
 public class ProductDTO {
     private long id;
     private String name;

@@ -1,6 +1,7 @@
 package pl.sda.springmvc.springmvc.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,5 +32,12 @@ public class ProductController {
     String addNewProduct(NewProductDTO productDTO) {
         productService.addProduct(productDTO);
         return "redirect:/products";
+    }
+
+    @RequestMapping("/{idProduct}")
+    ModelAndView productDetailsPage(@PathVariable("idProduct") long id){
+        ModelAndView mnv = new ModelAndView("details");
+        mnv.addObject("product", productService.getProductById(id));
+        return mnv;
     }
 }

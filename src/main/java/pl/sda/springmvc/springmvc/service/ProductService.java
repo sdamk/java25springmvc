@@ -3,6 +3,7 @@ package pl.sda.springmvc.springmvc.service;
 import org.springframework.stereotype.Service;
 import pl.sda.springmvc.springmvc.dto.NewProductDTO;
 import pl.sda.springmvc.springmvc.dto.ProductDTO;
+import pl.sda.springmvc.springmvc.exception.ProductNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,6 @@ public class ProductService {
                 .stream()
                 .filter(product -> product.getId() == idProduct)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException(idProduct));
     }
 }
