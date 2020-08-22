@@ -11,16 +11,8 @@
     <tr>
         <td th:text="${product.id}"></td>
         <td th:text="${product.name}"></td>
-        <td>
-            <a th:href="@{'/cart/addProduct?id=' + ${product.id}}">Add</a>
-        </td>
     </tr>
 </th:block>
-
-<form th:object="${newProduct}" method="post" th:action="@{/products}">
-    <input th:field="*{name}">
-    <button th:type="submit">Dodaj</button>
-</form>
 
 </body>
 </html>
