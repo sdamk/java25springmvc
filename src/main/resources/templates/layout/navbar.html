@@ -21,7 +21,7 @@
                     <ul class="nav navbar-nav">
                         <li><a th:href="@{/products}">Produkty</a></li>
                         <li><a th:href="@{/admin/products}">Admin</a></li>
-                        <li><a th:href="@{/shopcart}">Shop Cart</a></li>
+                        <li><a th:href="@{/cart}">Shop Cart</a></li>
                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="#{lang.choice}">LANGUAGE</span><span class="caret"></span></a>
                             <ul class="dropdown-menu show-tick">
                                 <li><a href="?lang=pl">[[#{lang.pl}]]<i th:if="__${#locale}__=='pl'" class="pull-right glyphicon glyphicon-ok"></i></a></li>

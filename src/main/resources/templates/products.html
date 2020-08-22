@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
 <head>
     <meta charset="UTF-8">
     <title>Hello World - Products</title>
 </head>
 <body>
+<div layout:fragment="content">
+    <th:block th:each="product : ${products}">
+        <tr>
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td>
+                <a th:href="@{'/cart/addProduct?id=' + ${product.id}}">Add</a>
+            </td>
+        </tr>
+    </th:block>
 
-<th:block th:each="product : ${products}">
-    <tr>
-        <td th:text="${product.id}"></td>
-        <td th:text="${product.name}"></td>
-        <td>
-            <a th:href="@{'/cart/addProduct?id=' + ${product.id}}">Add</a>
-        </td>
-    </tr>
-</th:block>
-
-<form th:object="${newProduct}" method="post" th:action="@{/products}">
-    <input th:field="*{name}">
-    <button th:type="submit">Dodaj</button>
-</form>
-
+    <form th:object="${newProduct}" method="post" th:action="@{/products}">
+        <input th:field="*{name}">
+        <button th:type="submit">Dodaj</button>
+    </form>
+</div>
 </body>
 </html>

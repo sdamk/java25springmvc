@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
 <head>
     <meta charset="UTF-8">
     <title>Hello World - Products</title>
 </head>
 <body>
-
-<th:block th:each="product : ${products}">
-    <tr>
-        <td th:text="${product.id}"></td>
-        <td th:text="${product.name}"></td>
-    </tr>
-</th:block>
-
+<div layout:fragment="content">
+    <th:block th:each="product : ${products}">
+        <tr>
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+        </tr>
+    </th:block>
+</div>
 </body>
 </html>
