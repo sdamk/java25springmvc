@@ -10,13 +10,14 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <th:block th:each="product : ${products}">
+    <th:block th:each="order : ${orders}">
         <tr>
-            <td th:text="${product.id}"></td>
-            <td th:text="${product.name}"></td>
+            <td th:text="${order.id}"></td>
+            <div th:each="product : ${order.products}">
+                <p th:text="${product}"/>
+            </div>
         </tr>
     </th:block>
-    <a th:href="@{cart/makeOrder}">Złóż zamówienie</a>
 </div>
 </body>
 </html>
