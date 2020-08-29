@@ -9,6 +9,7 @@ import pl.sda.springmvc.springmvc.service.ProductService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -42,10 +43,10 @@ public class Cart {
 
     //TODO: To think about this method name
     public void submit() {
-        List<Long> collect = products
+        Set<Long> collect = products
                 .stream()
                 .map(ProductDTO::getId)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         orderService.createOrder(collect);
         products.clear();
     }

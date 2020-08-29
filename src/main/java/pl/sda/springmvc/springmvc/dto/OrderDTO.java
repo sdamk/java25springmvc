@@ -2,19 +2,18 @@ package pl.sda.springmvc.springmvc.dto;
 
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
+@Getter
 public class OrderDTO {
 
-    private static long count;
-
-    @Getter
     private long id;
-    @Getter
+    private LocalDateTime localDateTime;
     private List<ProductDTO> products;
 
-    public OrderDTO(List<ProductDTO> products) {
-        this.id = ++count;
+    public OrderDTO(long id, LocalDateTime ldt, List<ProductDTO> products) {
+        this.id = id;
+        this.localDateTime = ldt;
         this.products = products;
     }
 }

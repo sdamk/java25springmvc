@@ -2,38 +2,49 @@ package pl.sda.springmvc.springmvc.service;
 
 import org.springframework.stereotype.Service;
 import pl.sda.springmvc.springmvc.dto.OrderDTO;
-import pl.sda.springmvc.springmvc.dto.ProductDTO;
+import pl.sda.springmvc.springmvc.entity.Order;
+import pl.sda.springmvc.springmvc.entity.Product;
+import pl.sda.springmvc.springmvc.exception.ProductNotFoundException;
+import pl.sda.springmvc.springmvc.repository.OrderRepository;
+import pl.sda.springmvc.springmvc.repository.ProductRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class OrderService {
-    private Map<Long, OrderDTO> orders = new HashMap<>();
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
-    private final ProductService productService;
-
-    public OrderService(ProductService productService) {
-        this.productService = productService;
+    public OrderService(OrderRepository orderRepository,
+                        ProductRepository productRepository) {
+        this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
     }
 
-    public void createOrder(List<Long> productIDs) {
-        List<ProductDTO> collect = productIDs
-                .stream()
-                .map(productService::getProductById)
-                .collect(Collectors.toList());
-        OrderDTO orderDTO = new OrderDTO(collect);
-        orders.put(orderDTO.getId(), orderDTO);
+    public void createOrder(Set<Long> productIDs) {
+        Set<Product> products = productRepository
+                .findAllByIdIn(productIDs);
+
+        Order order = new Order(products);
+        orderRepository.save(order);
     }
 
     public List<OrderDTO> getOrders() {
-        return new ArrayList<>(orders.values());
+        return orderRepository
+                .findAll()
+                .stream()
+                // FIX ME: null
+                .map(order -> new OrderDTO(order.getId(), order.getCreateTime(), null))
+                .collect(toList());
     }
 
     public OrderDTO getOrderById(long idProduct) {
-        return orders.get(idProduct);
+        return orderRepository
+                .findById(idProduct)
+                .map(order -> new OrderDTO(order.getId(), order.getCreateTime(), null))
+                .orElseThrow(() -> new ProductNotFoundException(idProduct));
     }
 }

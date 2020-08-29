@@ -3,36 +3,40 @@ package pl.sda.springmvc.springmvc.service;
 import org.springframework.stereotype.Service;
 import pl.sda.springmvc.springmvc.dto.NewProductDTO;
 import pl.sda.springmvc.springmvc.dto.ProductDTO;
+import pl.sda.springmvc.springmvc.entity.Product;
 import pl.sda.springmvc.springmvc.exception.ProductNotFoundException;
+import pl.sda.springmvc.springmvc.repository.ProductRepository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+//TRAANSACTION
 public class ProductService {
 
-    private static long count = 0;
+    private final ProductRepository repo;
 
-    private List<ProductDTO> products = new ArrayList<>();
-    {
-        products.add(new ProductDTO(++count, "Product 1"));
-        products.add(new ProductDTO(++count, "Product 2"));
+    //@Autowired
+    public ProductService(ProductRepository repo) {
+        this.repo = repo;
     }
+
     public List<ProductDTO> getProducts() {
-        return products;
+        return repo
+                .findAll()
+                .stream()
+                .map(entity -> new ProductDTO(entity.getId(), entity.getName()))
+                .collect(Collectors.toList());
     }
 
     public void addProduct(NewProductDTO newProductDTO) {
-        ProductDTO productDTO = new ProductDTO(++count, newProductDTO.getName());
-        products.add(productDTO);
+        repo.save(new Product(newProductDTO.getName()));
     }
 
-    //FIX ME!!!!
     public ProductDTO getProductById(long idProduct) {
-        return products
-                .stream()
-                .filter(product -> product.getId() == idProduct)
-                .findFirst()
+        return repo
+                .findById(idProduct)
+                .map(entity -> new ProductDTO(entity.getId(), entity.getName()))
                 .orElseThrow(() -> new ProductNotFoundException(idProduct));
     }
 }

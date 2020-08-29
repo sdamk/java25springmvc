@@ -7,10 +7,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private static final String[] ADMIN_MATCHERS = {"/admin*" , "/admin/*", "/admin/**"};
+    private static final String[] LOGGED_USER_MATCHER = {"/profile", "/cart"};
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
+        httpSecurity.csrf().disable()
+                .headers().frameOptions().disable()
+                .and()
                 .authorizeRequests()
+                .antMatchers(ADMIN_MATCHERS)
+                .hasRole("ADMIN")
+                .antMatchers(LOGGED_USER_MATCHER)
+                .authenticated()
                 .anyRequest()
                 .permitAll();
     }
