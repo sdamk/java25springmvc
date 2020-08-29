@@ -1,9 +1,14 @@
 package pl.sda.springmvc.springmvc.controller;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.sda.springmvc.springmvc.component.Cart;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/cart")
@@ -31,7 +36,9 @@ class CartController {
     }
 
     @GetMapping("/makeOrder")
-    String makeOrder() {
+    String makeOrder(Principal principal) {
+        System.out.println(principal.getName());
+        //SecurityContextHolder.getContext().getAuthentication().getName();
         cart.submit();
         return "redirect:/orders";
     }
